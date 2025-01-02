@@ -41,7 +41,7 @@ export default function AdvancedAddressAutocomplete() {
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      // Here you can handle form submission, e.g., send data to an API
+      // Handle form submission, e.g., send data to an API
     },
   });
 
@@ -49,6 +49,8 @@ export default function AdvancedAddressAutocomplete() {
     apiKey: API_KEY,
     onPlaceSelected: (place) => {
       const addressComponents = place.address_components as any;
+
+      console.log(addressComponents, "addressComponents");
       const newAddress = {
         addressLine1: "",
         addressLine2: "",
@@ -61,6 +63,7 @@ export default function AdvancedAddressAutocomplete() {
       addressComponents.forEach((component: any) => {
         const types = component.types;
 
+        console.log(component, "component");
         if (types.includes("street_number")) {
           newAddress.addressLine1 =
             component.long_name + " " + newAddress.addressLine1;
@@ -77,6 +80,11 @@ export default function AdvancedAddressAutocomplete() {
         }
       });
 
+      // Use `formatted_address` as a fallback for addressLine1
+      if (!newAddress.addressLine1 && place.formatted_address) {
+        newAddress.addressLine1 = place.formatted_address;
+      }
+
       newAddress.addressLine1 = newAddress.addressLine1.trim();
       formik.setValues(newAddress);
 
@@ -86,14 +94,10 @@ export default function AdvancedAddressAutocomplete() {
       }
     },
     options: {
-      types: ["address"],
+      types: ["geocode"], // Include geocode to support postal codes and detailed addresses
       componentRestrictions: { country: "ca" },
-      fields: ["address_components", "formatted_address", "geometry", "name"],
+      fields: ["address_components", "formatted_address", "geometry"],
       strictBounds: false,
-      locationBias: {
-        radius: 100000,
-        center: { lat: 56.130367, lng: -106.346771 },
-      },
     },
   });
 
@@ -112,7 +116,7 @@ export default function AdvancedAddressAutocomplete() {
               ref={inputRef}
               className="w-full"
               id="addressSearch"
-              placeholder="Start typing your address..."
+              placeholder="Start typing your address, postcode, or city..."
             />
           </div>
           <div>
@@ -122,7 +126,7 @@ export default function AdvancedAddressAutocomplete() {
               placeholder="Address Line 1"
             />
             {formik.touched.addressLine1 && formik.errors.addressLine1 && (
-              <p> {formik.errors?.addressLine1}</p>
+              <p>{formik.errors?.addressLine1}</p>
             )}
           </div>
           <div>
@@ -159,7 +163,7 @@ export default function AdvancedAddressAutocomplete() {
                 placeholder="Postcode"
               />
               {formik.touched.postcode && formik.errors.postcode && (
-                <p>{formik.touched.postcode}</p>
+                <p>{formik.errors.postcode}</p>
               )}
             </div>
             <div>
@@ -169,7 +173,7 @@ export default function AdvancedAddressAutocomplete() {
                 placeholder="Country"
               />
               {formik.touched.country && formik.errors.country && (
-                <p>{formik.touched.country}</p>
+                <p>{formik.errors.country}</p>
               )}
             </div>
           </div>
