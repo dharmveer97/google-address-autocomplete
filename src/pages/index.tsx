@@ -50,7 +50,7 @@ export default function AdvancedAddressAutocomplete() {
     onPlaceSelected: (place) => {
       const addressComponents = place.address_components as any;
 
-      console.log(addressComponents, "addressComponents");
+      console.log(placesRef, "placesRef");
       const newAddress = {
         addressLine1: "",
         addressLine2: "",
@@ -59,6 +59,8 @@ export default function AdvancedAddressAutocomplete() {
         postcode: "",
         country: "",
       };
+
+      console.log("addressComponents", addressComponents);
 
       addressComponents.forEach((component: any) => {
         const types = component.types;
