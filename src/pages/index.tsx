@@ -65,7 +65,6 @@ export default function AdvancedAddressAutocomplete() {
       addressComponents.forEach((component: any) => {
         const types = component.types;
 
-        console.log(component, "component");
         if (types.includes("street_number")) {
           newAddress.addressLine1 =
             component.long_name + " " + newAddress.addressLine1;
