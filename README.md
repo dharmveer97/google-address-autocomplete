@@ -2,7 +2,7 @@
 
 This is a template for creating applications using Vite and NextUI (v2).
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/vite-template)
+[Try it on CodeSandbox](git@github.com:dharmveer97/google-address-autocomplete.git)
 
 ## Technologies Used
 
@@ -18,7 +18,7 @@ This is a template for creating applications using Vite and NextUI (v2).
 To clone the project, run the following command:
 
 ```bash
-git clone https://github.com/nextui-org/vite-template.git
+git clone git@github.com:dharmveer97/google-address-autocomplete.git
 ```
 
 ### Install dependencies
